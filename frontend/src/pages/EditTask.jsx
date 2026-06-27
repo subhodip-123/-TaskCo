@@ -16,7 +16,7 @@ export default function EditTask() {
     taskService
       .list({ limit: 1000 })
       .then((data) => {
-        const found = data.tasks.find((t) => t._id === id);
+        const found = data.tasks.find((t) => String(t._id) === id);
         if (!found) {
           toast.error('Task not found');
           navigate('/tasks');
@@ -40,9 +40,13 @@ export default function EditTask() {
   if (loading) return <Spinner size="lg" />;
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold mb-1">Edit task</h1>
-      <p className="text-sm text-slate-500 mb-6">Update the details below.</p>
+    <div className="max-w-2xl animate-fade-in">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Edit Task</h1>
+          <p className="page-subtitle">Update the details below.</p>
+        </div>
+      </div>
       <div className="card p-6">
         <TaskForm initial={task} onSubmit={handleSubmit} submitLabel="Save changes" />
       </div>

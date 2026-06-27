@@ -18,7 +18,7 @@ router.get('/', getTasks);
 router.get('/stats', getStats);
 router.post('/', taskValidator, validate, createTask);
 router.patch('/reorder', reorderTasks);
-router.put('/:id', updateTask);
+router.put('/:id', taskValidator, validate, updateTask);
 router.delete('/:id', deleteTask);
 router.patch('/:id/status', toggleStatus);
 

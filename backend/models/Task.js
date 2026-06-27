@@ -62,6 +62,9 @@ const Task = sequelize.define(
 Task.prototype.toJSON = function () {
   const v = this.get();
   v._id = v.id;
+  if (v.dueDate) {
+    v.dueDate = new Date(v.dueDate).toISOString().slice(0, 10);
+  }
   return v;
 };
 

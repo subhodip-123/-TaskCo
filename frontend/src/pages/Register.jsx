@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import toast from 'react-hot-toast';
+import { HiOutlineUser, HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
 
 export default function Register() {
   const { register, loading } = useAuth();
@@ -31,47 +32,59 @@ export default function Register() {
 
   return (
     <form onSubmit={submit} className="space-y-4">
-      <h2 className="text-xl font-semibold text-center">Create your account</h2>
+      <div className="text-center mb-2">
+        <h2 className="text-xl font-bold">Create your account</h2>
+        <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">Start organizing your tasks</p>
+      </div>
       <div>
         <label className="label">Name</label>
-        <input
-          name="name"
-          value={form.name}
-          onChange={change}
-          className="input"
-          placeholder="Your full name"
-        />
+        <div className="relative">
+          <HiOutlineUser className="w-4 h-4 absolute left-3.5 top-3 text-slate-400 pointer-events-none" />
+          <input
+            name="name"
+            value={form.name}
+            onChange={change}
+            className="input pl-10"
+            placeholder="Your full name"
+          />
+        </div>
       </div>
       <div>
         <label className="label">Email</label>
-        <input
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={change}
-          className="input"
-          placeholder="you@example.com"
-          autoComplete="email"
-        />
+        <div className="relative">
+          <HiOutlineEnvelope className="w-4 h-4 absolute left-3.5 top-3 text-slate-400 pointer-events-none" />
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={change}
+            className="input pl-10"
+            placeholder="you@example.com"
+            autoComplete="email"
+          />
+        </div>
       </div>
       <div>
         <label className="label">Password</label>
-        <input
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={change}
-          className="input"
-          placeholder="At least 6 characters"
-          autoComplete="new-password"
-        />
+        <div className="relative">
+          <HiOutlineLockClosed className="w-4 h-4 absolute left-3.5 top-3 text-slate-400 pointer-events-none" />
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={change}
+            className="input pl-10"
+            placeholder="At least 6 characters"
+            autoComplete="new-password"
+          />
+        </div>
       </div>
-      <button type="submit" disabled={loading} className="btn-primary w-full">
+      <button type="submit" disabled={loading} className="btn-primary w-full mt-2">
         {loading ? 'Creating...' : 'Create account'}
       </button>
       <p className="text-sm text-center text-slate-500">
         Already have an account?{' '}
-        <Link to="/login" className="text-brand-600 font-medium hover:underline">
+        <Link to="/login" className="text-brand-600 font-semibold hover:underline">
           Sign in
         </Link>
       </p>

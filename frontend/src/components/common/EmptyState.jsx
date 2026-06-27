@@ -7,25 +7,35 @@ export default function EmptyState({
     <div className="text-center py-12 px-4">
       <svg
         viewBox="0 0 200 160"
-        className="mx-auto w-48 h-32 mb-4"
+        className="mx-auto w-44 h-32 mb-5"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect x="40" y="40" width="120" height="90" rx="10" fill="#e0e7ff" />
-        <rect x="55" y="60" width="90" height="8" rx="4" fill="#a5b4fc" />
-        <rect x="55" y="78" width="70" height="8" rx="4" fill="#c7d2fe" />
-        <rect x="55" y="96" width="50" height="8" rx="4" fill="#c7d2fe" />
-        <circle cx="160" cy="40" r="14" fill="#6366f1" />
+        {/* Card background */}
+        <rect x="35" y="30" width="130" height="100" rx="12" fill="#e0e7ff" />
+        <rect x="35" y="30" width="130" height="100" rx="12" fill="url(#cardGrad)" />
+        {/* Lines */}
+        <rect x="52" y="55" width="96" height="7" rx="3.5" fill="#a5b4fc" />
+        <rect x="52" y="71" width="72" height="7" rx="3.5" fill="#c7d2fe" />
+        <rect x="52" y="87" width="52" height="7" rx="3.5" fill="#c7d2fe" />
+        {/* Check badge */}
+        <circle cx="155" cy="38" r="16" fill="#6366f1" />
         <path
-          d="M154 40 l5 5 l8 -8"
+          d="M148 38 l5 5.5 l9 -9"
           stroke="#fff"
           strokeWidth="2.5"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
+        <defs>
+          <linearGradient id="cardGrad" x1="35" y1="30" x2="165" y2="130" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#eef2ff" />
+            <stop offset="100%" stopColor="#e0e7ff" />
+          </linearGradient>
+        </defs>
       </svg>
-      <h3 className="text-lg font-semibold mb-1">{title}</h3>
-      <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+      <h3 className="text-base font-bold mb-1.5">{title}</h3>
+      <p className="text-sm text-slate-500 dark:text-slate-400 mb-5 max-w-xs mx-auto">
         {description}
       </p>
       {action}

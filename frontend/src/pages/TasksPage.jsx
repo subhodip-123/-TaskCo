@@ -47,7 +47,7 @@ export default function TasksPage() {
       });
       setTasks(data.tasks);
       setPages(data.pages);
-    } catch (err) {
+    } catch {
       toast.error('Failed to load tasks');
     } finally {
       setLoading(false);
@@ -58,20 +58,17 @@ export default function TasksPage() {
     fetchTasks();
   }, [fetchTasks]);
 
-  // Socket.io live updates
   useEffect(() => {
     if (!user) return;
     const socket = getSocket();
-    const onCreate = () => fetchTasks();
-    const onUpdate = () => fetchTasks();
-    const onDelete = () => fetchTasks();
-    socket.on('task:created', onCreate);
-    socket.on('task:updated', onUpdate);
-    socket.on('task:deleted', onDelete);
+    const refresh = () => fetchTasks();
+    socket.on('task:created', refresh);
+    socket.on('task:updated', refresh);
+    socket.on('task:deleted', refresh);
     return () => {
-      socket.off('task:created', onCreate);
-      socket.off('task:updated', onUpdate);
-      socket.off('task:deleted', onDelete);
+      socket.off('task:created', refresh);
+      socket.off('task:updated', refresh);
+      socket.off('task:deleted', refresh);
     };
   }, [user, fetchTasks]);
 
@@ -97,7 +94,6 @@ export default function TasksPage() {
     }
   };
 
-  // Simple HTML5 drag & drop reordering
   const onDragStart = (i) => setDragIndex(i);
   const onDragOver = (e) => e.preventDefault();
   const onDrop = async (i) => {
@@ -115,11 +111,11 @@ export default function TasksPage() {
   };
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="space-y-5 animate-fade-in">
+      <div className="page-header">
         <div>
-          <h1 className="text-2xl font-bold">All tasks</h1>
-          <p className="text-sm text-slate-500">Manage everything in one place.</p>
+          <h1 className="page-title">All Tasks</h1>
+          <p className="page-subtitle">Manage everything in one place.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <button
@@ -137,7 +133,7 @@ export default function TasksPage() {
             <HiOutlineDocumentText className="w-4 h-4" /> PDF
           </button>
           <Link to="/tasks/new" className="btn-primary">
-            <HiOutlinePlus className="w-5 h-5" /> New
+            <HiOutlinePlus className="w-4 h-4" /> New
           </Link>
         </div>
       </div>
@@ -169,7 +165,7 @@ export default function TasksPage() {
               onDragStart={() => onDragStart(i)}
               onDragOver={onDragOver}
               onDrop={() => onDrop(i)}
-              className={dragIndex === i ? 'opacity-50' : ''}
+              className={dragIndex === i ? 'opacity-40 scale-95 transition-all' : ''}
             >
               <TaskCard
                 task={task}

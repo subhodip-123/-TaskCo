@@ -41,14 +41,15 @@ export default function Dashboard() {
   if (!stats) return null;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="space-y-6 animate-fade-in">
+      {/* Header */}
+      <div className="page-header">
         <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-sm text-slate-500">Your task overview at a glance.</p>
+          <h1 className="page-title">Dashboard</h1>
+          <p className="page-subtitle">Here's what's on your plate today.</p>
         </div>
         <Link to="/tasks/new" className="btn-primary">
-          <HiOutlinePlus className="w-5 h-5" /> New task
+          <HiOutlinePlus className="w-4 h-4" /> New task
         </Link>
       </div>
 
@@ -73,7 +74,7 @@ export default function Dashboard() {
           color="amber"
         />
         <StatCard
-          label="Today's tasks"
+          label="Due today"
           value={stats.todaysTasks?.length || 0}
           icon={HiOutlineFire}
           color="rose"
@@ -85,32 +86,43 @@ export default function Dashboard() {
         <div className="lg:col-span-2 space-y-4">
           <ProgressBar value={stats.progress} />
           <div className="card p-5">
-            <h3 className="font-semibold mb-3">Today's tasks</h3>
+            <div className="mb-4">
+              <h3 className="font-bold text-sm">Today's Tasks</h3>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+                {stats.todaysTasks?.length || 0} tasks due today
+              </p>
+            </div>
             {stats.todaysTasks?.length ? (
               <ul className="divide-y divide-slate-100 dark:divide-slate-800">
                 {stats.todaysTasks.map((t) => (
-                  <li key={t._id} className="py-3 flex items-center justify-between">
-                    <div>
-                      <p
-                        className={`font-medium ${
-                          t.completed ? 'line-through text-slate-400' : ''
+                  <li key={t._id} className="py-3 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                          t.completed ? 'bg-emerald-500' : 'bg-brand-500'
                         }`}
-                      >
-                        {t.title}
-                      </p>
-                      <p className="text-xs text-slate-500">{t.category}</p>
+                      />
+                      <div className="min-w-0">
+                        <p
+                          className={`text-sm font-medium truncate ${
+                            t.completed ? 'line-through text-slate-400' : ''
+                          }`}
+                        >
+                          {t.title}
+                        </p>
+                        {t.category && (
+                          <p className="text-xs text-slate-400 dark:text-slate-500">{t.category}</p>
+                        )}
+                      </div>
                     </div>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-slate-400 flex-shrink-0">
                       {formatDate(t.dueDate)}
                     </span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <EmptyState
-                title="Nothing due today"
-                description="Enjoy a calm day or plan ahead."
-              />
+              <EmptyState title="Nothing due today" description="Enjoy a calm day or plan ahead." />
             )}
           </div>
         </div>
@@ -119,20 +131,30 @@ export default function Dashboard() {
 
       {/* Recent activity */}
       <div className="card p-5">
-        <h3 className="font-semibold mb-3">Recent activity</h3>
+        <div className="mb-4">
+          <h3 className="font-bold text-sm">Recent Activity</h3>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Latest task updates</p>
+        </div>
         {stats.recent?.length ? (
           <ul className="divide-y divide-slate-100 dark:divide-slate-800">
             {stats.recent.map((t) => (
-              <li key={t._id} className="py-3 flex items-center justify-between">
-                <span className="font-medium">{t.title}</span>
-                <span className="text-xs text-slate-500">
+              <li key={t._id} className="py-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div
+                    className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                      t.completed ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                  />
+                  <span className="text-sm font-medium truncate">{t.title}</span>
+                </div>
+                <span className="text-xs text-slate-400 flex-shrink-0">
                   Updated {formatDate(t.updatedAt)}
                 </span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-slate-500">No recent activity.</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500">No recent activity.</p>
         )}
       </div>
     </div>
